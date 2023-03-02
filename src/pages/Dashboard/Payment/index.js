@@ -2,6 +2,7 @@ import { OptionButton } from '../../../components/Dashboard/payment/OptionButton
 import Typography from '@material-ui/core/Typography';
 import { OptionsPannel } from '../../../components/Dashboard/payment/OptionsPannel';
 import styled from 'styled-components';
+import { ConfirmButton } from '../../../components/Dashboard/payment/ConfirmButton';
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import useTicketTypes from '../../../hooks/api/useTicketTypes';
 
@@ -25,6 +26,10 @@ export default function Payment() {
       <OptionsPannel title="Primeiro, escolha sua modalidade de ingresso">
         {ticketTypes?.map((e) => <OptionButton key={e.id} title={e.name} subTitle={e.price}></OptionButton>)}
       </OptionsPannel>
+      <ConfirmButton
+        title="Fechado! O total ficou em R$ 600. Agora é só confirmar:"
+        confirmBox="RESERVAR INGRESSO"
+      ></ConfirmButton>
     </>
   );
 }
