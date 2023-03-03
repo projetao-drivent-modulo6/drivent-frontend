@@ -19,6 +19,8 @@ export default function Payment() {
       </EnrollMessage>
     );
   }
+
+  const value = 300;
   
   return (
     <>
@@ -27,7 +29,7 @@ export default function Payment() {
         {ticketTypes?.map((e) => <OptionButton key={e.id} title={e.name} subTitle={e.price}></OptionButton>)}
       </OptionsPannel>
       <ConfirmButton
-        title="Fechado! O total ficou em R$ 600. Agora é só confirmar:"
+        title={`Fechado! O total ficou em ${value} . Agora é só confirmar:`}
         confirmBox="RESERVAR INGRESSO"
       ></ConfirmButton>
     </>
