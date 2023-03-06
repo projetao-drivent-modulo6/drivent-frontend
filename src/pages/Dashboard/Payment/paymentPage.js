@@ -1,6 +1,7 @@
 import PaymentForm from './creditCard';
 import styled from 'styled-components';
 import { useState } from 'react';
+import useTicketTypes from '../../../hooks/api/useTicketTypes';
 
 const Payment = styled.div`
     display: flex;
@@ -56,10 +57,11 @@ const PriceBox = styled.div`
 
 export default function PaymentCardScreen() {
   const [payment, setPayment] = useState(false);
-
+  const { ticketTypes } = useTicketTypes();
+  
   return(
     <Payment>
-      <PriceBox>
+      <PriceBox> 
         <h1>Presencial + Com Hotel</h1>
         <h2>R$ 600</h2>
       </PriceBox>

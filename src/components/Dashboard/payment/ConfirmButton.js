@@ -5,7 +5,7 @@ export const ConfirmButton = (props) => {
       <ConfirmPhraseContainer>
         <p>{props.title}</p>
       </ConfirmPhraseContainer>
-      <ConfirmButtonContainer>
+      <ConfirmButtonContainer onClick={props.onClick}>
         <p>{props.confirmBox}</p>
       </ConfirmButtonContainer>
     </>
@@ -25,6 +25,7 @@ const ConfirmPhraseContainer = styled.div`
 `;
 
 const ConfirmButtonContainer = styled.button`
+  padding: 10px;
   width: 168px;
   height: 37px;
   background-color: #e0e0e0;
