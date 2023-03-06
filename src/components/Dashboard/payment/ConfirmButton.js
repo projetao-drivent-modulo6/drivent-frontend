@@ -36,6 +36,7 @@ const ConfirmPhraseContainer = styled.div`
 `;
 
 const ConfirmButtonContainer = styled.button`
+  padding: 10px;
   width: 168px;
   height: 37px;
   background-color: #e0e0e0;
