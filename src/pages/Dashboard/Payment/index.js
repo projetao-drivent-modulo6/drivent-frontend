@@ -6,28 +6,34 @@ import { ConfirmButton } from '../../../components/Dashboard/payment/ConfirmButt
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import useTicketTypes from '../../../hooks/api/useTicketTypes';
 import PaymentCardScreen from './paymentPage';
+import { useState } from 'react';
 
 const title = 'Ingresso e pagamento';
 export default function Payment() {
   const { enrollment } = useEnrollment();
   const { ticketTypes } = useTicketTypes();
+  const [prov, setProv] = useState(false);
 
   if (!enrollment) {
     return (
-      enrollment !== null && <EnrollMessage>
-        <StyledTypography variant="h4">{title}</StyledTypography>
-        <p>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso</p>
-      </EnrollMessage>
+      enrollment !== null && (
+        <EnrollMessage>
+          <StyledTypography variant="h4">{title}</StyledTypography>
+          <p>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso</p>
+        </EnrollMessage>
+      )
     );
   }
-  
+
   return (
     <>
       <StyledTypography variant="h4">{title}</StyledTypography>
       <OptionsPannel title="Primeiro, escolha sua modalidade de ingresso">
-        {ticketTypes?.map((e) => <OptionButton key={e.id} title={e.name} subTitle={e.price}></OptionButton>)}
+        {ticketTypes?.map((e) => (
+          <OptionButton key={e.id} title={e.name} subTitle={e.price}></OptionButton>
+        ))}
       </OptionsPannel>
-      <PaymentCardScreen></PaymentCardScreen>
+      {prov ==! false && <PaymentCardScreen></PaymentCardScreen>}
       <ConfirmButton
         title="Fechado! O total ficou em R$ 600. Agora é só confirmar:"
         confirmBox="RESERVAR INGRESSO"
@@ -51,7 +57,7 @@ const EnrollMessage = styled.div`
   h4 {
     align-self: flex-start;
   }
-  
+
   p {
     display: flex;
     align-items: center;
@@ -64,6 +70,6 @@ const EnrollMessage = styled.div`
     font-size: 20px;
     text-align: center;
 
-    color: #8E8E8E;
+    color: #8e8e8e;
   }
 `;
