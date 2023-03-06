@@ -15,6 +15,11 @@ const Payment = styled.div`
         line-height: 23px;
         color: #8E8E8E;
     }
+    #oi {
+        width: 10px;
+        height: 10px;
+        background-color: black;
+    }
 `;
 
 export default function PaymentCardScreen() {
@@ -24,7 +29,8 @@ export default function PaymentCardScreen() {
     <Payment>
       <div></div>
       <h1>Pagamento</h1>
-      { payment !== true ? <PaymentForm payment={payment} setPayment={setPayment}></PaymentForm> : <div></div>}
+      { payment !== true ? <PaymentForm></PaymentForm> : <div></div>}
     </Payment>
+    
   );
 }
