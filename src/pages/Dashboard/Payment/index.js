@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { ConfirmButton } from '../../../components/Dashboard/payment/ConfirmButton';
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import useTicketTypes from '../../../hooks/api/useTicketTypes';
+import PaymentCardScreen from './paymentPage';
 
 const title = 'Ingresso e pagamento';
 export default function Payment() {
@@ -26,6 +27,7 @@ export default function Payment() {
       <OptionsPannel title="Primeiro, escolha sua modalidade de ingresso">
         {ticketTypes?.map((e) => <OptionButton key={e.id} title={e.name} subTitle={e.price}></OptionButton>)}
       </OptionsPannel>
+      <PaymentCardScreen></PaymentCardScreen>
       <ConfirmButton
         title="Fechado! O total ficou em R$ 600. Agora é só confirmar:"
         confirmBox="RESERVAR INGRESSO"
