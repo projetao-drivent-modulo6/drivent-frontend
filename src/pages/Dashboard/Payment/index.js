@@ -15,6 +15,8 @@ export default function Payment() {
   const [prov, setProv] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState({ firstOption: null, secondOption: null });
 
+  console.log(selectedOptions);
+
   function changeScreenState() {
     setProv(true);
   }
@@ -98,7 +100,7 @@ export default function Payment() {
     <DisplayCard>
       <StyledTypography variant="h4">{title}</StyledTypography>
       <p>Ingresso escolhido</p>
-      <PaymentCardScreen></PaymentCardScreen>
+      <PaymentCardScreen selecetedOptions={selectedOptions}></PaymentCardScreen>
     </DisplayCard>
   );
 }

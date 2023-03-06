@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const OptionsPannel = (props) => {
-  console.log(props.selectedIndex);
   return (
     <PannelContainer>
       <p>{props.title}</p>

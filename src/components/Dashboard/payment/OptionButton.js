@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 export const OptionButton = (props) => {
-  console.log(props);
   return (
     <OptionButtonContainer onClick={props.onClick}>
       <p>{props.title}</p>
