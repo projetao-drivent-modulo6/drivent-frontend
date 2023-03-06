@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 export const OptionButton = (props) => {
   return (
-    <OptionButtonContainer>
+    <OptionButtonContainer onClick={props.onClick}>
       <p>{props.title}</p>
       <p>{props.subTitle}</p>
     </OptionButtonContainer>

@@ -4,7 +4,7 @@ export const OptionsPannel = (props) => {
   return (
     <PannelContainer>
       <p>{props.title}</p>
-      <Options>{props.children}</Options>
+      <Options selectedChild={props.selectedNthChild}>{props.children}</Options>
     </PannelContainer>
   );
 };
@@ -23,6 +23,11 @@ const PannelContainer = styled.div`
 `;
 const Options = styled.div`
   display: flex;
+
+  :nth-child(${(props) => props.selectedChild}) {
+    border: 2px solid blue;
+    padding: 10px;
+  }
 
   > * {
     margin-right: 24px;
