@@ -7,15 +7,7 @@ export const ConfirmButton = (props) => {
         <p>{props.title}</p>
       </ConfirmPhraseContainer>
       <ConfirmButtonContainer
-        onClick={() =>
-          alert(
-            `Seu pedido será confirmado em breve. O total ficou em R$ ${
-              selectedOptions.secondOption?.price
-                ? selectedOptions?.firstOption?.price + selectedOptions.secondOption?.price
-                : selectedOptions?.firstOption?.price
-            }.`
-          )
-        }
+        onClick={props.onClick}
       >
         <p>{props.confirmBox}</p>
       </ConfirmButtonContainer>
@@ -36,6 +28,7 @@ const ConfirmPhraseContainer = styled.div`
 `;
 
 const ConfirmButtonContainer = styled.button`
+  padding: 10px;
   width: 168px;
   height: 37px;
   background-color: #e0e0e0;
