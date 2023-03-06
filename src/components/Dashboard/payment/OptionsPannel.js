@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
 export const OptionsPannel = (props) => {
+  console.log(props.selectedIndex);
   return (
     <PannelContainer>
       <p>{props.title}</p>
-      <Options selectedChild={props.selectedNthChild}>{props.children}</Options>
+      <Options selectedIndex={props.selectedIndex}>{props.children}</Options>
     </PannelContainer>
   );
 };
@@ -24,13 +25,12 @@ const PannelContainer = styled.div`
 const Options = styled.div`
   display: flex;
 
-  :nth-child(${(props) => props.selectedChild}) {
-    border: 2px solid blue;
-    padding: 10px;
-  }
-
   > * {
     margin-right: 24px;
     cursor: pointer;
+  }
+
+  > button:nth-child(${(props) => props.selectedIndex + 1}) {
+    background-color: #ffeed2;
   }
 `;
