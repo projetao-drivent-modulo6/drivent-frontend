@@ -5,7 +5,7 @@ import * as ticketApi from '../../services/ticketApi';
 
 export default function useTicketTypes() {
   const token = useToken();
-  
+
   const {
     data: ticketTypes,
     loading: ticketTypesLoading,
@@ -17,6 +17,6 @@ export default function useTicketTypes() {
     ticketTypes,
     ticketTypesLoading,
     ticketTypesError,
-    getTicketTypes
+    getTicketTypes,
   };
 }

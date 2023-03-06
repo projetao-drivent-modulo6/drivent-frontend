@@ -1,11 +1,22 @@
 import styled from 'styled-components';
 export const ConfirmButton = (props) => {
+  const { selectedOptions } = props;
   return (
     <>
       <ConfirmPhraseContainer>
         <p>{props.title}</p>
       </ConfirmPhraseContainer>
-      <ConfirmButtonContainer>
+      <ConfirmButtonContainer
+        onClick={() =>
+          alert(
+            `Seu pedido será confirmado em breve. O total ficou em R$ ${
+              selectedOptions.secondOption?.price
+                ? selectedOptions?.firstOption?.price + selectedOptions.secondOption?.price
+                : selectedOptions?.firstOption?.price
+            }.`
+          )
+        }
+      >
         <p>{props.confirmBox}</p>
       </ConfirmButtonContainer>
     </>
@@ -32,6 +43,8 @@ const ConfirmButtonContainer = styled.button`
   border: none;
   border-radius: 4px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+
+  cursor: pointer;
 
   p {
     font-size: 14px;

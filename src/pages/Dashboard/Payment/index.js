@@ -5,31 +5,85 @@ import styled from 'styled-components';
 import { ConfirmButton } from '../../../components/Dashboard/payment/ConfirmButton';
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import useTicketTypes from '../../../hooks/api/useTicketTypes';
+import { useState } from 'react';
 
 const title = 'Ingresso e pagamento';
 export default function Payment() {
   const { enrollment } = useEnrollment();
   const { ticketTypes } = useTicketTypes();
+  const [selectedOptions, setSelectedOptions] = useState({ firstOption: null, secondOption: null });
+
+  const secontPannelData = [
+    { id: 1, name: 'Sem Hotel', price: 0 },
+    { id: 2, name: 'Com Hotel', price: 350 },
+  ];
+
+  console.log(selectedOptions);
 
   if (!enrollment) {
     return (
-      enrollment !== null && <EnrollMessage>
-        <StyledTypography variant="h4">{title}</StyledTypography>
-        <p>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso</p>
-      </EnrollMessage>
+      enrollment !== null && (
+        <EnrollMessage>
+          <StyledTypography variant="h4">{title}</StyledTypography>
+          <p>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso</p>
+        </EnrollMessage>
+      )
     );
   }
-  
+
   return (
     <>
       <StyledTypography variant="h4">{title}</StyledTypography>
-      <OptionsPannel title="Primeiro, escolha sua modalidade de ingresso">
-        {ticketTypes?.map((e) => <OptionButton key={e.id} title={e.name} subTitle={e.price}></OptionButton>)}
+      <OptionsPannel
+        selectedIndex={selectedOptions.firstOption?.index}
+        title="Primeiro, escolha sua modalidade de ingresso"
+      >
+        {ticketTypes?.map((e, index) => (
+          <OptionButton
+            onClick={() => {
+              setSelectedOptions({
+                ...selectedOptions,
+                secondOption: null,
+                firstOption: { index: index, title: e.name, price: e.price },
+              });
+            }}
+            key={e.id}
+            title={e.name}
+            subTitle={e.price}
+          ></OptionButton>
+        ))}
       </OptionsPannel>
-      <ConfirmButton
-        title="Fechado! O total ficou em R$ 600. Agora é só confirmar:"
-        confirmBox="RESERVAR INGRESSO"
-      ></ConfirmButton>
+      {selectedOptions.firstOption != null && selectedOptions.firstOption?.title != 'Remoto' && (
+        <OptionsPannel
+          selectedIndex={selectedOptions.secondOption?.index}
+          title="Agora, escolha sua modalidade de ingresso"
+        >
+          {secontPannelData.map((e, index) => (
+            <OptionButton
+              onClick={() => {
+                setSelectedOptions({
+                  ...selectedOptions,
+                  secondOption: { index: index, title: e.name, price: e.price },
+                });
+              }}
+              key={e.id}
+              title={e.name}
+              subTitle={`+ ${e.price}`}
+            ></OptionButton>
+          ))}
+        </OptionsPannel>
+      )}
+      {(selectedOptions.secondOption != null || selectedOptions.firstOption?.title == 'Remoto') && (
+        <ConfirmButton
+          title={`Fechado! O total ficou em R$ ${
+            selectedOptions.secondOption?.price
+              ? selectedOptions?.firstOption?.price + selectedOptions.secondOption?.price
+              : selectedOptions?.firstOption?.price
+          }. Agora é só confirmar:`}
+          selectedOptions={selectedOptions}
+          confirmBox="RESERVAR INGRESSO"
+        ></ConfirmButton>
+      )}
     </>
   );
 }
@@ -49,7 +103,7 @@ const EnrollMessage = styled.div`
   h4 {
     align-self: flex-start;
   }
-  
+
   p {
     display: flex;
     align-items: center;
@@ -62,6 +116,6 @@ const EnrollMessage = styled.div`
     font-size: 20px;
     text-align: center;
 
-    color: #8E8E8E;
+    color: #8e8e8e;
   }
 `;

@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 export const OptionButton = (props) => {
+  console.log(props);
   return (
-    <OptionButtonContainer>
+    <OptionButtonContainer onClick={props.onClick}>
       <p>{props.title}</p>
-      <p>{props.subTitle}</p>
+      <p>R$ {props.subTitle}</p>
     </OptionButtonContainer>
   );
 };
@@ -22,7 +23,7 @@ const OptionButtonContainer = styled.button`
   border: 1px solid #cecece;
   border-radius: 20px;
 
-  background-color: transparent;
+  background: transparent;
 
   > p:first-child {
     font-size: 16px;
