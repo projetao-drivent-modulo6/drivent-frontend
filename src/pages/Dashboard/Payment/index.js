@@ -18,8 +18,6 @@ export default function Payment() {
     { id: 2, name: 'Com Hotel', price: 350 },
   ];
 
-  console.log(selectedOptions);
-
   if (!enrollment) {
     return (
       enrollment !== null && (
