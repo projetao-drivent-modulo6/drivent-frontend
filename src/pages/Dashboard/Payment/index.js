@@ -13,11 +13,11 @@ export default function Payment() {
   const { enrollment } = useEnrollment();
   const { ticketTypes } = useTicketTypes();
   const [prov, setProv] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState({ firstOption: null, secondOption: null });
 
   function changeScreenState() {
     setProv(true);
   }
-  const [selectedOptions, setSelectedOptions] = useState({ firstOption: null, secondOption: null });
 
   const secontPannelData = [
     { id: 1, name: 'Sem Hotel', price: 0 },
@@ -101,13 +101,13 @@ export default function Payment() {
       <PaymentCardScreen></PaymentCardScreen>
     </DisplayCard>
   );
-};
+}
 
 //Styled components
 
 const DisplayCard = styled.div`
   padding: 5px;
-  p{
+  p {
     margin-bottom: 10px;
     width: 169px;
     height: 23px;
@@ -116,9 +116,8 @@ const DisplayCard = styled.div`
     font-weight: 400;
     font-size: 20px;
     line-height: 23px;
-    color: #8E8E8E;
+    color: #8e8e8e;
   }
-
 `;
 
 const StyledTypography = styled(Typography)`

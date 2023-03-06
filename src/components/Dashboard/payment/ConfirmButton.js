@@ -7,15 +7,7 @@ export const ConfirmButton = (props) => {
         <p>{props.title}</p>
       </ConfirmPhraseContainer>
       <ConfirmButtonContainer
-        onClick={() =>
-          alert(
-            `Seu pedido será confirmado em breve. O total ficou em R$ ${
-              selectedOptions.secondOption?.price
-                ? selectedOptions?.firstOption?.price + selectedOptions.secondOption?.price
-                : selectedOptions?.firstOption?.price
-            }.`
-          )
-        }
+        onClick={props.onClick}
       >
         <p>{props.confirmBox}</p>
       </ConfirmButtonContainer>
