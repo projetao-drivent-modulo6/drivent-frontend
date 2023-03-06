@@ -17,6 +17,12 @@ export default function Payment() {
   function changeScreenState() {
     setProv(true);
   }
+  const [selectedOptions, setSelectedOptions] = useState({ firstOption: null, secondOption: null });
+
+  const secontPannelData = [
+    { id: 1, name: 'Sem Hotel', price: 0 },
+    { id: 2, name: 'Com Hotel', price: 350 },
+  ];
 
   if (!enrollment) {
     return (
@@ -33,16 +39,57 @@ export default function Payment() {
     return (
       <>
         <StyledTypography variant="h4">{title}</StyledTypography>
-        <OptionsPannel title="Primeiro, escolha sua modalidade de ingresso">
-          {ticketTypes?.map((e) => (
-            <OptionButton key={e.id} title={e.name} subTitle={e.price}></OptionButton>
+        <OptionsPannel
+          selectedIndex={selectedOptions.firstOption?.index}
+          title="Primeiro, escolha sua modalidade de ingresso"
+        >
+          {ticketTypes?.map((e, index) => (
+            <OptionButton
+              onClick={() => {
+                setSelectedOptions({
+                  ...selectedOptions,
+                  secondOption: null,
+                  firstOption: { index: index, title: e.name, price: e.price },
+                });
+              }}
+              key={e.id}
+              title={e.name}
+              subTitle={e.price}
+            ></OptionButton>
           ))}
         </OptionsPannel>
-        <ConfirmButton
-          onClick={changeScreenState}
-          title="Fechado! O total ficou em R$ 600. Agora é só confirmar:"
-          confirmBox="RESERVAR INGRESSO"
-        ></ConfirmButton>
+        {selectedOptions.firstOption != null && selectedOptions.firstOption?.title != 'Remoto' && (
+          <OptionsPannel
+            selectedIndex={selectedOptions.secondOption?.index}
+            title="Agora, escolha sua modalidade de ingresso"
+          >
+            {secontPannelData.map((e, index) => (
+              <OptionButton
+                onClick={() => {
+                  setSelectedOptions({
+                    ...selectedOptions,
+                    secondOption: { index: index, title: e.name, price: e.price },
+                  });
+                }}
+                key={e.id}
+                title={e.name}
+                subTitle={`+ ${e.price}`}
+              ></OptionButton>
+            ))}
+          </OptionsPannel>
+        )}
+        {(selectedOptions.secondOption != null || selectedOptions.firstOption?.title == 'Remoto') && (
+          <ConfirmButton
+            onClick={changeScreenState}
+            title={`Fechado! O total ficou em R$ ${
+              selectedOptions.secondOption?.price
+                ? selectedOptions?.firstOption?.price + selectedOptions.secondOption?.price
+                : selectedOptions?.firstOption?.price
+            }. Agora é só confirmar:`}
+            selectedOptions={selectedOptions}
+            confirmBox="RESERVAR INGRESSO"
+          ></ConfirmButton>
+        )}
       </>
     );
   }
