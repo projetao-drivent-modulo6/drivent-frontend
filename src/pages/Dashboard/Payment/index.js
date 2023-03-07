@@ -7,18 +7,19 @@ import useEnrollment from '../../../hooks/api/useEnrollment';
 import useTicketTypes from '../../../hooks/api/useTicketTypes';
 import PaymentCardScreen from './paymentPage';
 import { useState } from 'react';
+import PaymentConfirmation from './PaymentConfirmation';
 
 const title = 'Ingresso e pagamento';
 export default function Payment() {
   const { enrollment } = useEnrollment();
   const { ticketTypes } = useTicketTypes();
-  const [prov, setProv] = useState(false);
+  const [prov, setProv] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState({ firstOption: null, secondOption: null });
 
   console.log(selectedOptions);
 
   function changeScreenState() {
-    setProv(true);
+    setProv(2);
   }
 
   const secontPannelData = [
@@ -37,7 +38,7 @@ export default function Payment() {
     );
   }
 
-  if (prov === false) {
+  if (prov === 1) {
     return (
       <>
         <StyledTypography variant="h4">{title}</StyledTypography>
@@ -94,15 +95,17 @@ export default function Payment() {
         )}
       </>
     );
+  } else if (prov === 2) {
+    return (
+      <DisplayCard>
+        <StyledTypography variant="h4">{title}</StyledTypography>
+        <p>Ingresso escolhido</p>
+        <PaymentCardScreen selecetedOptions={selectedOptions}></PaymentCardScreen>
+      </DisplayCard>
+    );
+  } else if (prov === 3) {
+    return <PaymentConfirmation></PaymentConfirmation>;
   }
-
-  return (
-    <DisplayCard>
-      <StyledTypography variant="h4">{title}</StyledTypography>
-      <p>Ingresso escolhido</p>
-      <PaymentCardScreen selecetedOptions={selectedOptions}></PaymentCardScreen>
-    </DisplayCard>
-  );
 }
 
 //Styled components
