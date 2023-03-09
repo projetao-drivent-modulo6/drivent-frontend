@@ -128,6 +128,7 @@ const HotelSquare = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-left: 10px;
 
   h1 {
     color: #343434;
@@ -142,6 +143,7 @@ const HotelSquare = styled.div`
     background-color: gainsboro;
     border-radius: 5px;
     margin-left: 14px;
+    
   }
 
   h2 {
