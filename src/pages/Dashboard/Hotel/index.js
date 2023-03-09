@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import useBooking from '../../../hooks/api/useBooking';
 import useHotelWithRoom from '../../../hooks/api/useHotelWithRoom';
 import { RoomSelection } from '../../../components/Hotel/RoomSelection';
+import ChooseHotel from '../../../components/Hotel/ChooseHotel';
 
 export default function Hotel() {
   const [rooms, setRooms] = useState(null);
@@ -12,11 +13,12 @@ export default function Hotel() {
     setRooms(hotelWithRoom?.Rooms);
   }, [hotelWithRoom]);
 
-  if (bookingLoading) return (<></>);
-  
+  if (bookingLoading) return <></>;
+
   return (
     <>
-      {rooms && <RoomSelection rooms={rooms} setRooms={setRooms} updateBookings={getBookings}/>}
+      <ChooseHotel />
+      {rooms && <RoomSelection rooms={rooms} setRooms={setRooms} updateBookings={getBookings} />}
     </>
   );
 }
