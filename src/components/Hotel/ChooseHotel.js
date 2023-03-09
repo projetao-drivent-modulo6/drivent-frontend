@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useToken from '../../hooks/useToken';
 
-export default function ChooseHotel() {
+export default function ChooseHotel({ showRoomSelection, hideRoomSelection }) {
   const [selectedHotelIndex, setSelectedHotelIndex] = useState(null);
   const [hotels, setHotels] = useState([]);
   const token = useToken();
@@ -23,13 +23,15 @@ export default function ChooseHotel() {
       }
     }
     teste();
-  });
+  }, []);
 
   const handleHotelSquareClick = (index) => {
     if (selectedHotelIndex === index) {
       setSelectedHotelIndex(null);
+      hideRoomSelection();
     } else {
       setSelectedHotelIndex(index);
+      showRoomSelection(index);
     }
   };
 
@@ -122,6 +124,7 @@ const HotelSquare = styled.div`
 
 const HotelContainer = styled.div`
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  /* justify-content: space-around;
+  align-items: center; */
+  margin-bottom: 52px;
 `;

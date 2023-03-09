@@ -8,6 +8,8 @@ export default function Hotel() {
   const [rooms, setRooms] = useState(null);
   const { booking, bookingLoading, getBookings } = useBooking();
   const { hotelWithRoom, getHotelWithRoom } = useHotelWithRoom();
+  const showRoomSelection = (id) => getHotelWithRoom(id);
+  const hideRoomSelection = () => setRooms(null);
 
   useEffect(() => {
     setRooms(hotelWithRoom?.Rooms);
@@ -17,7 +19,7 @@ export default function Hotel() {
 
   return (
     <>
-      <ChooseHotel />
+      <ChooseHotel showRoomSelection={showRoomSelection} hideRoomSelection={hideRoomSelection}/>
       {rooms && <RoomSelection rooms={rooms} setRooms={setRooms} updateBookings={getBookings} />}
     </>
   );
