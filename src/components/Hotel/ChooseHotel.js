@@ -1,17 +1,16 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useToken from '../../hooks/useToken';
 
 export default function ChooseHotel() {
   const [selectedHotelIndex, setSelectedHotelIndex] = useState(null);
   const [hotels, setHotels] = useState([]);
+  const token = useToken();
 
   useEffect(() => {
     async function teste() {
       try {
-        const token =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY3ODM2OTYxM30.FHgbQLNw_IgEX4nYL00PDvwobN1OEVzgSFS_Npk-ho4';
-
         const config = {
           headers: { Authorization: `Bearer ${token}` },
         };
