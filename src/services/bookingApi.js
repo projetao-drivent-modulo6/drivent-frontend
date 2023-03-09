@@ -11,6 +11,7 @@ export async function getBooking(token) {
 }
 
 export async function save(roomId, token) {
+  console.log(roomId);
   const body = { roomId };
   const response = await api.post('/booking', body, {
     headers: {

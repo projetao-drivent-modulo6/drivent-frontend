@@ -18,23 +18,29 @@ export default function ChooseHotel({ showRoomSelection, hideRoomSelection }) {
         const requisicao = await axios.get('http://localhost:4000/hotels', config);
 
         const { data: hotels } = requisicao;
-        hotels.forEach(hotel => {
+        hotels.forEach((hotel) => {
           let sum = 0;
           const arr = [];
           const hash = {};
           for (let i = 0; i < hotel.Rooms.length; i++) {
             const e = hotel.Rooms[i];
-            if (e.capacity !== e._count.Booking) sum += (e.capacity - e._count.Booking);
+            if (e.capacity !== e._count.Booking) sum += e.capacity - e._count.Booking;
             switch (e.capacity) {
-            case 1: if (!hash[1]) hash[1] = true; break;
-            case 2: if (!hash[2]) hash[2] = true; break;
-            case 3: if (!hash[3]) hash[3] = true; break;
+            case 1:
+              if (!hash[1]) hash[1] = true;
+              break;
+            case 2:
+              if (!hash[2]) hash[2] = true;
+              break;
+            case 3:
+              if (!hash[3]) hash[3] = true;
+              break;
             }
           }
           if (hash[1]) arr.push('Single');
           if (hash[2]) arr.push('Double');
           if (hash[3]) arr.push('Triple');
-          
+
           let types;
           if (arr.length === 1) types = arr.join('');
           if (arr.length === 2) types = arr.join(' e ');
@@ -48,6 +54,7 @@ export default function ChooseHotel({ showRoomSelection, hideRoomSelection }) {
         });
 
         setHotels(hotels);
+        console.log(hotels);
       } catch (error) {
         console.log(error);
       }
@@ -55,13 +62,14 @@ export default function ChooseHotel({ showRoomSelection, hideRoomSelection }) {
     teste();
   }, []);
 
-  const handleHotelSquareClick = (index) => {
+  const handleHotelSquareClick = (id, index) => {
     if (selectedHotelIndex === index) {
       setSelectedHotelIndex(null);
       hideRoomSelection();
     } else {
       setSelectedHotelIndex(index);
-      showRoomSelection(index);
+      console.log(id);
+      showRoomSelection(id);
     }
   };
 
@@ -77,7 +85,8 @@ export default function ChooseHotel({ showRoomSelection, hideRoomSelection }) {
           <HotelSquare
             key={hotel.id}
             selected={selectedHotelIndex === index}
-            onClick={() => handleHotelSquareClick(index)}
+            onClick={() => handleHotelSquareClick(hotel.id, index)}
+            
           >
             <img src={hotel.image} alt={hotel.name}></img>
             <h1>{hotel.name}</h1>
@@ -119,6 +128,7 @@ const HotelSquare = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-left: 10px;
 
   h1 {
     color: #343434;
@@ -133,6 +143,7 @@ const HotelSquare = styled.div`
     background-color: gainsboro;
     border-radius: 5px;
     margin-left: 14px;
+    
   }
 
   h2 {
