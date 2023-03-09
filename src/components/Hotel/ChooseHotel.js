@@ -16,8 +16,38 @@ export default function ChooseHotel({ showRoomSelection, hideRoomSelection }) {
         };
 
         const requisicao = await axios.get('http://localhost:4000/hotels', config);
-        console.log(requisicao);
-        setHotels(requisicao.data);
+
+        const { data: hotels } = requisicao;
+        hotels.forEach(hotel => {
+          let sum = 0;
+          const arr = [];
+          const hash = {};
+          for (let i = 0; i < hotel.Rooms.length; i++) {
+            const e = hotel.Rooms[i];
+            if (e.capacity !== e._count.Booking) sum += (e.capacity - e._count.Booking);
+            switch (e.capacity) {
+            case 1: if (!hash[1]) hash[1] = true; break;
+            case 2: if (!hash[2]) hash[2] = true; break;
+            case 3: if (!hash[3]) hash[3] = true; break;
+            }
+          }
+          if (hash[1]) arr.push('Single');
+          if (hash[2]) arr.push('Double');
+          if (hash[3]) arr.push('Triple');
+          
+          let types;
+          if (arr.length === 1) types = arr.join('');
+          if (arr.length === 2) types = arr.join(' e ');
+          if (arr.length === 3) {
+            arr.splice(1, 0, ', ');
+            arr.splice(3, 0, ' e ');
+            types = arr.join('');
+          }
+          hotel.roomCount = sum;
+          hotel.types = types;
+        });
+
+        setHotels(hotels);
       } catch (error) {
         console.log(error);
       }
@@ -52,9 +82,9 @@ export default function ChooseHotel({ showRoomSelection, hideRoomSelection }) {
             <img src={hotel.image} alt={hotel.name}></img>
             <h1>{hotel.name}</h1>
             <h2>Tipos de acomodação:</h2>
-            <p>Single and Double</p>
+            <p>{hotel.types}</p>
             <h2>Vagas disponíveis:</h2>
-            <p>103</p>
+            <p>{hotel.roomCount}</p>
           </HotelSquare>
         ))}
       </HotelContainer>
