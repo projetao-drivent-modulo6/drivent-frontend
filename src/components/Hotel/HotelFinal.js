@@ -28,7 +28,7 @@ export default function HotelFinal({ booking, showRoomSelection }) {
         <h2>Quarto reservado</h2>
         <p>{`${room.name} (${room.type})`}</p>
         <h2>Pessoas no seu quarto</h2>
-        <p>{'Você' + (plus && ' e mais ' + plus)}</p>
+        <p>{'Você' + (plus ? (' e mais ' + plus) : '')}</p>
       </HotelSquareStyleAlt>
 
       <ButtonSelection onClick={handleClickExchangeRoom}>TROCAR DE QUARTO</ButtonSelection>
