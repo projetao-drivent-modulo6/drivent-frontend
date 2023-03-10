@@ -3,6 +3,7 @@ import useBooking from '../../../hooks/api/useBooking';
 import useHotelWithRoom from '../../../hooks/api/useHotelWithRoom';
 import { RoomSelection } from '../../../components/Hotel/RoomSelection';
 import ChooseHotel from '../../../components/Hotel/ChooseHotel';
+import HotelFinal from '../../../components/Hotel/HotelFinal';
 
 export default function Hotel() {
   const [rooms, setRooms] = useState(null);
@@ -19,7 +20,10 @@ export default function Hotel() {
 
   return (
     <>
-      <ChooseHotel showRoomSelection={showRoomSelection} hideRoomSelection={hideRoomSelection}/>
+      {booking
+        ? <HotelFinal booking={booking} showRoomSelection={showRoomSelection}/>
+        : <ChooseHotel showRoomSelection={showRoomSelection} hideRoomSelection={hideRoomSelection}/>
+      }
       {rooms && <RoomSelection rooms={rooms} setRooms={setRooms} updateBookings={getBookings} />}
     </>
   );
