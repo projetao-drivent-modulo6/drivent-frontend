@@ -35,6 +35,7 @@ export default function ChooseHotel({ showRoomSelection, hideRoomSelection }) {
             case 3:
               if (!hash[3]) hash[3] = true;
               break;
+            default: break;
             }
           }
           if (hash[1]) arr.push('Single');
@@ -54,8 +55,8 @@ export default function ChooseHotel({ showRoomSelection, hideRoomSelection }) {
         });
 
         setHotels(hotels);
-        console.log(hotels);
       } catch (error) {
+        // eslint-disable-next-line
         console.log(error);
       }
     }
@@ -68,7 +69,6 @@ export default function ChooseHotel({ showRoomSelection, hideRoomSelection }) {
       hideRoomSelection();
     } else {
       setSelectedHotelIndex(index);
-      console.log(id);
       showRoomSelection(id);
     }
   };

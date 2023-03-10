@@ -16,8 +16,6 @@ export default function Payment() {
   const [prov, setProv] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState({ firstOption: null, secondOption: null });
 
-  console.log(selectedOptions);
-
   function changeScreenState() {
     setProv(2);
   }
@@ -61,7 +59,7 @@ export default function Payment() {
             ></OptionButton>
           ))}
         </OptionsPannel>
-        {selectedOptions.firstOption != null && selectedOptions.firstOption?.title != 'Remoto' && (
+        {selectedOptions.firstOption !== null && selectedOptions.firstOption?.title !== 'Remoto' && (
           <OptionsPannel
             selectedIndex={selectedOptions.secondOption?.index}
             title="Agora, escolha sua modalidade de ingresso"
@@ -81,7 +79,7 @@ export default function Payment() {
             ))}
           </OptionsPannel>
         )}
-        {(selectedOptions.secondOption != null || selectedOptions.firstOption?.title == 'Remoto') && (
+        {(selectedOptions.secondOption !== null || selectedOptions.firstOption?.title === 'Remoto') && (
           <ConfirmButton
             onClick={changeScreenState}
             title={`Fechado! O total ficou em R$ ${
