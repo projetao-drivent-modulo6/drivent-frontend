@@ -24,7 +24,7 @@ export function RoomSelection({ rooms, setRooms, updateBookings }) {
       <form id='rooms' onSubmit={handleSubmit}>
         {rooms.map(e => <Room key={e.id} data={e} selectedRoom={selectedRoom} handleOptionChange={handleOptionChange}/>)}
       </form>
-      {selectedRoom && <button form='rooms'>RESERVAR QUARTO</button>}
+      {selectedRoom && <ButtonSelection form='rooms'>RESERVAR QUARTO</ButtonSelection>}
     </RoomSelectionStyle>
   );
 }
@@ -43,18 +43,18 @@ const RoomSelectionStyle = styled.div`
     gap: 8px 17px;
     margin-bottom: 46px;
   }
+`;
 
-  button {
-    cursor: pointer;
-    width: 182px;
-    height: 37px;
+export const ButtonSelection = styled.button`
+  cursor: pointer;
+  width: 182px;
+  height: 37px;
 
-    background: #E0E0E0;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-    border: none;
+  background: #E0E0E0;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  border: none;
 
-    font-family: 'Roboto';
-    font-size: 14px;
-  }
+  font-family: 'Roboto';
+  font-size: 14px;
 `;

@@ -92,8 +92,8 @@ export default class PaymentForm extends React.Component {
             'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI2MywiaWF0IjoxNjc4MTA4MzU3fQ.tzU-uIGoajPSYsMF4qgjyyd9Ug9vPBeXuo6kWRhuuHU',
         },
       })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((response) => response.json()) // eslint-disable-next-line
+      .then((data) => console.log(data)) // eslint-disable-next-line
       .catch((error) => console.error(error));
   };
 
