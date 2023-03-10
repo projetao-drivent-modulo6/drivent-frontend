@@ -14,7 +14,7 @@ const CardForm = styled.form`
   display: flex;
   width: 100vw;
   flex-direction: column;
-  #cardInput{
+  #cardInput {
     display: flex;
   }
   #inputs {
@@ -98,11 +98,15 @@ export default class PaymentForm extends React.Component {
   };
 
   render() {
+    const { setProv } = this.props;
+    function changeScreenState() {
+      setProv(3);
+    }
     return (
       <Display>
         <Teste id="PaymentForm">
           <CardForm onSubmit={this.handleSubmit}>
-            <div id='cardInput'>
+            <div id="cardInput">
               <Cards
                 cvc={this.state.cvc}
                 expiry={this.state.expiry}
@@ -145,7 +149,7 @@ export default class PaymentForm extends React.Component {
                 </div>
               </div>
             </div>
-            <ConfirmButton id="button" confirmBox="FINALIZAR PAGAMENTO"></ConfirmButton>
+            <ConfirmButton onClick={changeScreenState} id="button" confirmBox="FINALIZAR PAGAMENTO"></ConfirmButton>
           </CardForm>
         </Teste>
       </Display>

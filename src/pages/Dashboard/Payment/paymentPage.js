@@ -34,8 +34,6 @@ const PriceBox = styled.div`
   justify-content: center;
   align-items: center;
   h1 {
-    width: 167px;
-    height: 19px;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -44,8 +42,6 @@ const PriceBox = styled.div`
     color: #454545;
   }
   h2 {
-    width: 44px;
-    height: 16px;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -55,7 +51,7 @@ const PriceBox = styled.div`
   }
 `;
 
-export default function PaymentCardScreen({ selectedOptions }) {
+export default function PaymentCardScreen({ selectedOptions, setProv }) {
   // TODO implementar o resumo do pedido a partir do objeto {selectedOptions}
   const [payment, setPayment] = useState(false);
   const { ticketTypes } = useTicketTypes();
@@ -63,11 +59,13 @@ export default function PaymentCardScreen({ selectedOptions }) {
   return (
     <Payment>
       <PriceBox>
-        <h1>Presencial + Com Hotel</h1>
-        <h2>R$ 600</h2>
+        <h1>
+          {selectedOptions?.firstOption.title} + {selectedOptions?.secondOption.title}
+        </h1>
+        <h2>R$ {selectedOptions?.firstOption.price + selectedOptions.secondOption.price}</h2>
       </PriceBox>
       <h1>Pagamento</h1>
-      {payment !== true ? <PaymentForm></PaymentForm> : <div></div>}
+      {payment !== true ? <PaymentForm setProv={setProv} ></PaymentForm> : <div></div>}
     </Payment>
   );
 }

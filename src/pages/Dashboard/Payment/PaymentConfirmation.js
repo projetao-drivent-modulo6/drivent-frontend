@@ -2,14 +2,16 @@ import confirm from '../../../assets/images/Vector.png';
 import Typography from '@material-ui/core/Typography';
 import { OptionsPannel } from '../../../components/Dashboard/payment/OptionsPannel';
 import styled from 'styled-components';
-
-export default function PaymentConfirmation() {
+export default function PaymentConfirmation({ selectedOptions }) {
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
       <OptionsPannel title="Ingresso escolhido"></OptionsPannel>
       <StyledInfo>
-        <p>Presencial + Com Hotel </p> <p>R$600</p>
+        <h1>
+          {selectedOptions?.firstOption.title} + {selectedOptions?.secondOption.title}
+        </h1>
+        <h2>R$ {selectedOptions?.firstOption.price + selectedOptions.secondOption.price}</h2>
       </StyledInfo>
       <StyledPagamento> Pagamento</StyledPagamento>
 
@@ -37,6 +39,22 @@ const StyledInfo = styled.div`
   margin-bottom: 15px;
   align-items: center;
   justify-content: center;
+  h1 {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #454545;
+  }
+  h2 {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #898989;
+  }
 `;
 const StyledPagamento = styled.h1`
   font-family: 'Roboto';

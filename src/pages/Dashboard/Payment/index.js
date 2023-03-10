@@ -19,7 +19,6 @@ export default function Payment() {
   function changeScreenState() {
     setProv(2);
   }
-
   const secontPannelData = [
     { id: 1, name: 'Sem Hotel', price: 0 },
     { id: 2, name: 'Com Hotel', price: 350 },
@@ -35,7 +34,6 @@ export default function Payment() {
       )
     );
   }
-
   if (prov === 1) {
     return (
       <>
@@ -98,11 +96,11 @@ export default function Payment() {
       <DisplayCard>
         <StyledTypography variant="h4">{title}</StyledTypography>
         <p>Ingresso escolhido</p>
-        <PaymentCardScreen selecetedOptions={selectedOptions}></PaymentCardScreen>
+        <PaymentCardScreen selectedOptions={selectedOptions} setProv={setProv} ></PaymentCardScreen>
       </DisplayCard>
     );
   } else if (prov === 3) {
-    return <PaymentConfirmation></PaymentConfirmation>;
+    return <PaymentConfirmation selectedOptions={selectedOptions}></PaymentConfirmation>;
   }
 }
 
