@@ -7,6 +7,7 @@ import HotelFinal from '../../../components/Hotel/HotelFinal';
 
 export default function Hotel() {
   const [rooms, setRooms] = useState(null);
+  const [hotelBooking, setHotelBooking] = useState(null);
   const { booking, bookingLoading, getBookings } = useBooking();
   const { hotelWithRoom, getHotelWithRoom } = useHotelWithRoom();
   const showRoomSelection = (id) => getHotelWithRoom(id);
@@ -16,15 +17,27 @@ export default function Hotel() {
     setRooms(hotelWithRoom?.Rooms);
   }, [hotelWithRoom]);
 
+  useEffect(() => {
+    setHotelBooking(booking);
+  }, [booking]);
+
+  async function updateBookings() {
+    try {
+      await getBookings();
+    } catch (error) {
+      setHotelBooking(null);
+    }
+  }
+
   if (bookingLoading) return <></>;
 
   return (
     <>
-      {booking
-        ? <HotelFinal booking={booking} showRoomSelection={showRoomSelection}/>
+      {hotelBooking
+        ? <HotelFinal booking={hotelBooking} showRoomSelection={showRoomSelection} updateBookings={updateBookings}/>
         : <ChooseHotel showRoomSelection={showRoomSelection} hideRoomSelection={hideRoomSelection}/>
       }
-      {rooms && <RoomSelection rooms={rooms} setRooms={setRooms} updateBookings={getBookings} />}
+      {rooms && <RoomSelection rooms={rooms} setRooms={setRooms} updateBookings={updateBookings} />}
     </>
   );
 }

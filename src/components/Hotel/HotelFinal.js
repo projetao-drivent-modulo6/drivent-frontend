@@ -4,7 +4,7 @@ import { ChooseHotelPhrase } from './ChooseHotel';
 import { HotelSquareStyle } from './HotelSquare';
 import { ButtonSelection } from './RoomSelection';
 
-export default function HotelFinal({ booking, showRoomSelection }) {
+export default function HotelFinal({ booking, showRoomSelection, updateBookings }) {
   const { removeBooking } = useRemoveBooking();
   const { Room: room, Room: { Hotel: hotel } } = booking;
   room.type = (room.capacity === 1) ? 'Single' : (room.capacity === 2) ? 'Double' : 'Triple';
@@ -12,7 +12,7 @@ export default function HotelFinal({ booking, showRoomSelection }) {
 
   async function handleClickExchangeRoom() {
     await removeBooking(booking.id);
-    showRoomSelection(hotel.id);
+    await updateBookings();
   }
 
   return (
