@@ -66,7 +66,7 @@ const Display = styled.div`
   flex-direction: column;
 `;
 
-export default function PaymentForm({ setProv }) {
+export default function PaymentForm({ setProv, userTicketId }) {
   const token = useToken();
 
   const [cvc, setCvc] = useState('');
@@ -99,20 +99,22 @@ export default function PaymentForm({ setProv }) {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    console.log(token);
-    const formData = { cvc, expiry, focus, name, number };
-    const API = 'payments/process';
-    axios
-      .post(API, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => response.json()) // eslint-disable-next-line
-      .then((data) => console.log(data)) // eslint-disable-next-line
+    const cardData = { issuer: 'generic', name, number, cvv: cvc, expirationDate: expiry };
+    //TODO implements the issuer get function, replacing the 'generic' value
+    const reqBody = { ticketId: userTicketId, cardData: cardData };
+    const API = 'http://localhost:4000/payments/process';
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    await axios
+      .post(API, reqBody, config)
+      .then((response) => console.log(response.data))
       .catch((error) => console.error(error));
+
+    setProv(3);
   };
 
   const changeScreenState = () => {
@@ -126,7 +128,7 @@ export default function PaymentForm({ setProv }) {
   return (
     <Display>
       <Teste id="PaymentForm">
-        <CardForm onSubmit={changeScreenState}>
+        <CardForm onSubmit={handleSubmit}>
           <div id="cardInput">
             <Cards cvc={cvc} expiry={expiry} focused={focus} name={name} number={number} />
             <ConfirmButton confirmBox="FINALIZAR PAGAMENTO" type="submit"></ConfirmButton>
@@ -168,6 +170,7 @@ export default function PaymentForm({ setProv }) {
               onFocus={handleInputFocus}
               placeholder="Nome (como escrito no cartão)"
               value={name}
+              maxLength='16'
             />
           </div>
         </CardForm>

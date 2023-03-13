@@ -51,10 +51,9 @@ const PriceBox = styled.div`
   }
 `;
 
-export default function PaymentCardScreen({ selectedOptions, setProv }) {
+export default function PaymentCardScreen({ selectedOptions, setProv, userTicketId }) {
   // TODO implementar o resumo do pedido a partir do objeto {selectedOptions}
   const [payment, setPayment] = useState(false);
-  const { ticketTypes } = useTicketTypes();
 
   return (
     <Payment>
@@ -72,7 +71,7 @@ export default function PaymentCardScreen({ selectedOptions, setProv }) {
         </h2>
       </PriceBox>
       <h1>Pagamento</h1>
-      {payment !== true ? <PaymentForm setProv={setProv}></PaymentForm> : <div></div>}
+      {payment !== true ? <PaymentForm userTicketId={userTicketId} setProv={setProv}></PaymentForm> : <div></div>}
     </Payment>
   );
 }
