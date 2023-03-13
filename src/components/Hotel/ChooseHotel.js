@@ -26,15 +26,15 @@ export default function ChooseHotel({ showRoomSelection, hideRoomSelection }) {
             const e = hotel.Rooms[i];
             if (e.capacity !== e._count.Booking) sum += e.capacity - e._count.Booking;
             switch (e.capacity) {
-            case 1:
-              if (!hash[1]) hash[1] = true;
-              break;
-            case 2:
-              if (!hash[2]) hash[2] = true;
-              break;
-            case 3:
-              if (!hash[3]) hash[3] = true;
-              break;
+              case 1:
+                if (!hash[1]) hash[1] = true;
+                break;
+              case 2:
+                if (!hash[2]) hash[2] = true;
+                break;
+              case 3:
+                if (!hash[3]) hash[3] = true;
+                break;
             }
           }
           if (hash[1]) arr.push('Single');
@@ -86,7 +86,6 @@ export default function ChooseHotel({ showRoomSelection, hideRoomSelection }) {
             key={hotel.id}
             selected={selectedHotelIndex === index}
             onClick={() => handleHotelSquareClick(hotel.id, index)}
-            
           >
             <img src={hotel.image} alt={hotel.name}></img>
             <h1>{hotel.name}</h1>
@@ -143,7 +142,6 @@ const HotelSquare = styled.div`
     background-color: gainsboro;
     border-radius: 5px;
     margin-left: 14px;
-    
   }
 
   h2 {

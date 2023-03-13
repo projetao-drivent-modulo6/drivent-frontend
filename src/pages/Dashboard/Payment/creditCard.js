@@ -4,6 +4,7 @@ import 'react-credit-cards/es/styles-compiled.css';
 import styled from 'styled-components';
 import { ConfirmButton } from '../../../components/Dashboard/payment/ConfirmButton';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Teste = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ const CardForm = styled.form`
   display: flex;
   width: 100vw;
   flex-direction: column;
-  #cardInput{
+  #cardInput {
     display: flex;
   }
   #inputs {
@@ -68,10 +69,18 @@ export default class PaymentForm extends React.Component {
     focus: '',
     name: '',
     number: '',
+    token: '',
+    ticketId: '',
   };
 
+  constructor(props) {
+    super(props);
+    this.state.token = props.token;
+    this.state.ticketId = props.userTicketId;
+  }
+
   handleInputFocus = (e) => {
-    this.setState({ focus: e.target.name.length });
+    this.setState({ focus: e.target.name });
   };
 
   handleInputChange = (e) => {
@@ -80,21 +89,23 @@ export default class PaymentForm extends React.Component {
     this.setState({ [name]: value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
     const { cvc, expiry, focus, name, number } = this.state;
-    const formData = { cvc, expiry, focus, name, number };
+    const cardData = { issuer: 'generic', name, number, cvv: cvc, expirationDate: expiry };
+    //TODO implements the issuer get function, replacing the 'generic' value
+    const reqBody = { ticketId: this.state.ticketId, cardData: cardData };
     const API = process.env.REACT_APP_API_BASE_URL + 'payments/process';
-    axios
-      .post(API, formData, {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI2MywiaWF0IjoxNjc4MTA4MzU3fQ.tzU-uIGoajPSYsMF4qgjyyd9Ug9vPBeXuo6kWRhuuHU',
-        },
-      })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
+    const config = {
+      headers: { Authorization: `Bearer ${this.state.token}` },
+    };
+
+    await axios
+      .post(API, reqBody, config)
+      .then((response) => console.log(response.data))
       .catch((error) => console.error(error));
+
+    toast('Ticket pago com sucesso!');
   };
 
   render() {
@@ -102,7 +113,7 @@ export default class PaymentForm extends React.Component {
       <Display>
         <Teste id="PaymentForm">
           <CardForm onSubmit={this.handleSubmit}>
-            <div id='cardInput'>
+            <div id="cardInput">
               <Cards
                 cvc={this.state.cvc}
                 expiry={this.state.expiry}

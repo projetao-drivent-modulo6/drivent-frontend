@@ -6,8 +6,12 @@ import { ConfirmButton } from '../../../components/Dashboard/payment/ConfirmButt
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import useTicketTypes from '../../../hooks/api/useTicketTypes';
 import PaymentCardScreen from './paymentPage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PaymentConfirmation from './PaymentConfirmation';
+import axios from 'axios';
+import useToken from '../../../hooks/useToken';
+import { toast } from 'react-toastify';
+import { set } from 'date-fns';
 
 const title = 'Ingresso e pagamento';
 export default function Payment() {
@@ -15,12 +19,87 @@ export default function Payment() {
   const { ticketTypes } = useTicketTypes();
   const [prov, setProv] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState({ firstOption: null, secondOption: null });
+  const [userTicketId, setUserTicketId] = useState(null);
+  const token = useToken();
 
   console.log(selectedOptions);
+
+  async function searchForUserTicket() {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}tickets/`, config);
+      setUserTicketId(response.data.id);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    searchForUserTicket();
+  }, []);
 
   function changeScreenState() {
     setProv(2);
   }
+
+  const postUserToken = async () => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}tickets/types`, config);
+      console.log(response);
+
+      let selectedTicketTypeId;
+      const selectedTicketTypeBooleans = { isRemote: null, includesHotel: null };
+
+      if (!selectedOptions.secondOption) {
+        selectedTicketTypeBooleans.isRemote = true;
+        selectedTicketTypeBooleans.includesHotel = false;
+      } else if (selectedOptions.secondOption.title == 'Com Hotel') {
+        selectedTicketTypeBooleans.isRemote = false;
+        selectedTicketTypeBooleans.includesHotel = true;
+      } else {
+        selectedTicketTypeBooleans.isRemote = false;
+        selectedTicketTypeBooleans.includesHotel = false;
+      }
+
+      response.data.forEach((tickeTypeObj) => {
+        console.log(tickeTypeObj);
+        if (
+          tickeTypeObj.includesHotel == selectedTicketTypeBooleans.includesHotel &&
+          tickeTypeObj.isRemote == selectedTicketTypeBooleans.isRemote
+        ) {
+          selectedTicketTypeId = tickeTypeObj.id;
+        }
+      });
+
+      const postUserTicket = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}tickets`,
+        { ticketTypeId: selectedTicketTypeId },
+        config
+      );
+
+      setUserTicketId(postUserTicket.data.id);
+
+      toast('Ticket criado com sucesso!');
+
+      setTimeout(() => changeScreenState(), 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const changePaymentStatus = async () => {};
+
+  const firstPannelData = [
+    { id: 1, name: 'Remoto', price: 100 },
+    { id: 2, name: 'Presencial', price: 350 },
+  ];
 
   const secontPannelData = [
     { id: 1, name: 'Sem Hotel', price: 0 },
@@ -46,7 +125,7 @@ export default function Payment() {
           selectedIndex={selectedOptions.firstOption?.index}
           title="Primeiro, escolha sua modalidade de ingresso"
         >
-          {ticketTypes?.map((e, index) => (
+          {firstPannelData?.map((e, index) => (
             <OptionButton
               onClick={() => {
                 setSelectedOptions({
@@ -83,7 +162,7 @@ export default function Payment() {
         )}
         {(selectedOptions.secondOption != null || selectedOptions.firstOption?.title == 'Remoto') && (
           <ConfirmButton
-            onClick={changeScreenState}
+            onClick={postUserToken}
             title={`Fechado! O total ficou em R$ ${
               selectedOptions.secondOption?.price
                 ? selectedOptions?.firstOption?.price + selectedOptions.secondOption?.price
@@ -100,7 +179,7 @@ export default function Payment() {
       <DisplayCard>
         <StyledTypography variant="h4">{title}</StyledTypography>
         <p>Ingresso escolhido</p>
-        <PaymentCardScreen selecetedOptions={selectedOptions}></PaymentCardScreen>
+        <PaymentCardScreen userTicketId={userTicketId} selecetedOptions={selectedOptions}></PaymentCardScreen>
       </DisplayCard>
     );
   } else if (prov === 3) {

@@ -2,6 +2,7 @@ import PaymentForm from './creditCard';
 import styled from 'styled-components';
 import { useState } from 'react';
 import useTicketTypes from '../../../hooks/api/useTicketTypes';
+import useToken from '../../../hooks/useToken';
 
 const Payment = styled.div`
   display: flex;
@@ -55,10 +56,11 @@ const PriceBox = styled.div`
   }
 `;
 
-export default function PaymentCardScreen({ selectedOptions }) {
+export default function PaymentCardScreen({ userTicketId, selectedOptions }) {
   // TODO implementar o resumo do pedido a partir do objeto {selectedOptions}
   const [payment, setPayment] = useState(false);
   const { ticketTypes } = useTicketTypes();
+  const token = useToken();
 
   return (
     <Payment>
@@ -67,7 +69,7 @@ export default function PaymentCardScreen({ selectedOptions }) {
         <h2>R$ 600</h2>
       </PriceBox>
       <h1>Pagamento</h1>
-      {payment !== true ? <PaymentForm></PaymentForm> : <div></div>}
+      {payment !== true ? <PaymentForm userTicketId={userTicketId} token={token}></PaymentForm> : <div></div>}
     </Payment>
   );
 }
