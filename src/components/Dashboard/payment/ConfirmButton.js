@@ -19,7 +19,7 @@ export const ConfirmButton = (props) => {
 
 const ConfirmPhraseContainer = styled.div`
   p {
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 400;
     color: #8e8e8e;
     margin-top: 43px;
@@ -29,7 +29,7 @@ const ConfirmPhraseContainer = styled.div`
 
 const ConfirmButtonContainer = styled.button`
   padding: 10px;
-  width: 168px;
+  width: 185px;
   height: 37px;
   background-color: #e0e0e0;
   outline: none;
@@ -40,7 +40,7 @@ const ConfirmButtonContainer = styled.button`
   cursor: pointer;
 
   p {
-    font-size: 14px;
+    font-size: 15px;
     color: #000000;
     font-weight: 500;
     line-height: 16px;

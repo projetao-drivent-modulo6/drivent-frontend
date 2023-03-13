@@ -121,14 +121,17 @@ export default class PaymentForm extends React.Component {
                   placeholder="Card Number"
                   onChange={this.handleInputChange}
                   onFocus={this.handleInputFocus}
+                  maxLength="16"
                 />
                 <p>Ex: 49....., 51......, 36......., 41.......</p>
                 <input
-                  type="name"
+                  type="text"
                   name="name"
                   placeholder="Name"
                   onChange={this.handleInputChange}
                   onFocus={this.handleInputFocus}
+                  maxLength="16"
+                  pattern="^[A-Za-z]+$"
                 />
                 <div id="MinorInputs">
                   <input
@@ -137,6 +140,8 @@ export default class PaymentForm extends React.Component {
                     placeholder="Valid Thru"
                     onChange={this.handleInputChange}
                     onFocus={this.handleInputFocus}
+                    maxLength="4"
+                    inputMode="numeric"
                   />
                   <input
                     id="minor2"
@@ -145,6 +150,7 @@ export default class PaymentForm extends React.Component {
                     placeholder="CVC"
                     onChange={this.handleInputChange}
                     onFocus={this.handleInputFocus}
+                    maxLength="3"
                   />
                 </div>
               </div>
