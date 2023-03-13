@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import styled from 'styled-components';
 import { ConfirmButton } from '../../../components/Dashboard/payment/ConfirmButton';
 import axios from 'axios';
 import InputMask from 'react-input-mask';
+import useToken from '../../../hooks/useToken';
 
 const Teste = styled.div`
   display: flex;
@@ -14,9 +15,10 @@ const Teste = styled.div`
 const CardForm = styled.form`
   display: flex;
   width: 100vw;
-  flex-direction: column;
+  
   #cardInput {
     display: flex;
+    flex-direction: column;
   }
   #inputs {
     display: flex;
@@ -62,35 +64,48 @@ const Display = styled.div`
   flex-direction: column;
 `;
 
-export default class PaymentForm extends React.Component {
-  state = {
-    cvc: '',
-    expiry: '',
-    focus: '',
-    name: '',
-    number: '',
+export default function PaymentForm({ setProv }) {
+  const token = useToken();
+
+  const [cvc, setCvc] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [focus, setFocus] = useState('');
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const handleInputFocus = (e) => {
+    setFocus(e.target.name.length);
   };
 
-  handleInputFocus = (e) => {
-    this.setState({ focus: e.target.name.length });
-  };
-
-  handleInputChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-
-    this.setState({ [name]: value });
+    switch (name) {
+    case 'number':
+      setNumber(value);
+      break;
+    case 'name':
+      setName(value);
+      break;
+    case 'expiry':
+      setExpiry(value);
+      break;
+    case 'cvc':
+      setCvc(value);
+      break;
+    default:
+      break;
+    }
   };
 
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const { cvc, expiry, focus, name, number } = this.state;
+    console.log(token);
     const formData = { cvc, expiry, focus, name, number };
-    const API = process.env.REACT_APP_API_BASE_URL + 'payments/process';
+    const API = 'payments/process';
     axios
       .post(API, formData, {
         headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI2MywiaWF0IjoxNjc4MTA4MzU3fQ.tzU-uIGoajPSYsMF4qgjyyd9Ug9vPBeXuo6kWRhuuHU',
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => response.json()) // eslint-disable-next-line
@@ -98,68 +113,58 @@ export default class PaymentForm extends React.Component {
       .catch((error) => console.error(error));
   };
 
-  render() {
-    const { setProv } = this.props;
-    function changeScreenState() {
-      setProv(3);
-    }
-    return (
-      <Display>
-        <Teste id="PaymentForm">
-          <CardForm onSubmit={this.handleSubmit}>
-            <div id="cardInput">
-              <Cards
-                cvc={this.state.cvc}
-                expiry={this.state.expiry}
-                focused={this.state.focus}
-                name={this.state.name}
-                number={this.state.number}
-              />
-              <div id="inputs">
-                <InputMask
-                  mask="9999 9999 9999 9999"
-                  name="number"
-                  placeholder="Card Number"
-                  onChange={this.handleInputChange}
-                  onFocus={this.handleInputFocus}
-                  maskChar=""
-                />
-                <p>Ex: 49....., 51......, 36......., 41.......</p>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Name"
-                  onChange={this.handleInputChange}
-                  onFocus={this.handleInputFocus}
-                  maxLength="16"
-                  pattern="^[A-Za-z]+$"
-                />
-                <div id="MinorInputs">
-                  <input
-                    type="tel"
-                    name="expiry"
-                    placeholder="Valid Thru"
-                    onChange={this.handleInputChange}
-                    onFocus={this.handleInputFocus}
-                    maxLength="4"
-                    inputMode="numeric"
-                  />
-                  <input
-                    id="minor2"
-                    type="tel"
-                    name="cvc"
-                    placeholder="CVC"
-                    onChange={this.handleInputChange}
-                    onFocus={this.handleInputFocus}
-                    maxLength="3"
-                  />
-                </div>
-              </div>
-            </div>
-            <ConfirmButton onClick={changeScreenState} id="button" confirmBox="FINALIZAR PAGAMENTO"></ConfirmButton>
-          </CardForm>
-        </Teste>
-      </Display>
-    );
-  }
+  const changeScreenState = () => {
+    setProv(3);
+  };
+
+  return (
+    <Display>
+      <Teste id="PaymentForm">
+        <CardForm onSubmit={changeScreenState}>
+          <div id="cardInput">
+            <Cards cvc={cvc} expiry={expiry} focused={focus} name={name} number={number} />
+            <ConfirmButton confirmBox="FINALIZAR PAGAMENTO" type="submit"></ConfirmButton>
+          </div>
+          <div id="inputs">
+            <InputMask
+              mask="9999 9999 9999 9999"
+              maskChar=" "
+              name="number"
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              placeholder="Número do cartão"
+              value={number}
+            />
+            <InputMask
+              mask="99/99"
+              maskChar=" "
+              name="expiry"
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              placeholder="MM/AA"
+              value={expiry}
+            />
+            <InputMask
+              mask="999"
+              maskChar=" "
+              name="cvc"
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              placeholder="CVC"
+              value={cvc}
+            />
+            <input
+              id="name"
+              type="text"
+              name="name"
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              placeholder="Nome (como escrito no cartão)"
+              value={name}
+            />
+          </div>
+        </CardForm>
+      </Teste>
+    </Display>
+  );
 }

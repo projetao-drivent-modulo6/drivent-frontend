@@ -9,7 +9,7 @@ export const ConfirmButton = (props) => {
       <ConfirmButtonContainer
         onClick={props.onClick}
       >
-        <p>{props.confirmBox}</p>
+        <p id='title2'>{props.confirmBox}</p>
       </ConfirmButtonContainer>
     </>
   );
@@ -39,7 +39,7 @@ const ConfirmButtonContainer = styled.button`
 
   cursor: pointer;
 
-  p {
+  #title2 {
     font-size: 15px;
     color: #000000;
     font-weight: 500;
