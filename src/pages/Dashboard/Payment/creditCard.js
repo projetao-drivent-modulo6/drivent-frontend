@@ -16,7 +16,9 @@ const CardForm = styled.form`
   display: flex;
   width: 100vw;
   
+  
   #cardInput {
+    margin-top: 15px;
     display: flex;
     flex-direction: column;
   }
@@ -135,6 +137,7 @@ export default function PaymentForm({ setProv }) {
               placeholder="Número do cartão"
               value={number}
             />
+            <p>Ex: 49....., 51......, 36......., 41.......</p>
             <InputMask
               mask="99/99"
               maskChar=" "
