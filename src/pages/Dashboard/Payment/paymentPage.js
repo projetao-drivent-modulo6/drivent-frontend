@@ -60,12 +60,19 @@ export default function PaymentCardScreen({ selectedOptions, setProv }) {
     <Payment>
       <PriceBox>
         <h1>
-          {selectedOptions?.firstOption.title} + {selectedOptions?.secondOption.title}
+          {selectedOptions?.secondOption?.title
+            ? selectedOptions.firstOption.title + ' ' + selectedOptions.secondOption.title
+            : selectedOptions.firstOption.title}
         </h1>
-        <h2>R$ {selectedOptions?.firstOption.price + selectedOptions.secondOption.price}</h2>
+        <h2>
+          R$
+          {selectedOptions?.secondOption?.price
+            ? selectedOptions.firstOption.price + selectedOptions.secondOption.price
+            : selectedOptions.firstOption.price}
+        </h2>
       </PriceBox>
       <h1>Pagamento</h1>
-      {payment !== true ? <PaymentForm setProv={setProv} ></PaymentForm> : <div></div>}
+      {payment !== true ? <PaymentForm setProv={setProv}></PaymentForm> : <div></div>}
     </Payment>
   );
 }
