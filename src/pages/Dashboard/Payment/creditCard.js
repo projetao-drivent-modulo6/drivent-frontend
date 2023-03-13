@@ -4,6 +4,7 @@ import 'react-credit-cards/es/styles-compiled.css';
 import styled from 'styled-components';
 import { ConfirmButton } from '../../../components/Dashboard/payment/ConfirmButton';
 import axios from 'axios';
+import InputMask from 'react-input-mask';
 
 const Teste = styled.div`
   display: flex;
@@ -115,13 +116,13 @@ export default class PaymentForm extends React.Component {
                 number={this.state.number}
               />
               <div id="inputs">
-                <input
-                  type="tel"
+                <InputMask
+                  mask="9999 9999 9999 9999"
                   name="number"
                   placeholder="Card Number"
                   onChange={this.handleInputChange}
                   onFocus={this.handleInputFocus}
-                  maxLength="16"
+                  maskChar=""
                 />
                 <p>Ex: 49....., 51......, 36......., 41.......</p>
                 <input
