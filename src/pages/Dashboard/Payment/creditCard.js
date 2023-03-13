@@ -116,7 +116,11 @@ export default function PaymentForm({ setProv }) {
   };
 
   const changeScreenState = () => {
-    setProv(3);
+    if(cvc !== '') {
+      setProv(3);
+    } else {
+      alert('Preencha todos os campos corretamente!');
+    }
   };
 
   return (
