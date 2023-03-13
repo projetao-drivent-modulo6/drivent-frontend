@@ -9,9 +9,16 @@ export default function PaymentConfirmation({ selectedOptions }) {
       <OptionsPannel title="Ingresso escolhido"></OptionsPannel>
       <StyledInfo>
         <h1>
-          {selectedOptions?.firstOption.title} + {selectedOptions?.secondOption.title}
+          {selectedOptions?.secondOption?.title
+            ? selectedOptions.firstOption.title + ' ' + selectedOptions.secondOption.title
+            : selectedOptions.firstOption.title}
         </h1>
-        <h2>R$ {selectedOptions?.firstOption.price + selectedOptions.secondOption.price}</h2>
+        <h2>
+          R$
+          {selectedOptions?.secondOption?.price
+            ? selectedOptions.firstOption.price + selectedOptions.secondOption.price
+            : selectedOptions.firstOption.price}
+        </h2>
       </StyledInfo>
       <StyledPagamento> Pagamento</StyledPagamento>
 
