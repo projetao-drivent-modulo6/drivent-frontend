@@ -19,7 +19,6 @@ export default function Payment() {
   const [selectedOptions, setSelectedOptions] = useState({ firstOption: null, secondOption: null });
   const [userTicketId, setUserTicketId] = useState(null);
   const token = useToken();
-  console.log(userTicketId);
 
   function changeScreenState() {
     setProv(2);
@@ -41,7 +40,7 @@ export default function Payment() {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}tickets/`, config);
       setUserTicketId(response.data.id);
-    } catch (error) {
+    } catch (error) { // eslint-disable-next-line
       console.log(error);
     }
   }
@@ -57,7 +56,6 @@ export default function Payment() {
       };
 
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}tickets/types`, config);
-      console.log(response);
 
       let selectedTicketTypeId;
       const selectedTicketTypeBooleans = { isRemote: null, includesHotel: null };
@@ -65,7 +63,7 @@ export default function Payment() {
       if (!selectedOptions.secondOption) {
         selectedTicketTypeBooleans.isRemote = true;
         selectedTicketTypeBooleans.includesHotel = false;
-      } else if (selectedOptions.secondOption.title == 'Com Hotel') {
+      } else if (selectedOptions.secondOption.title === 'Com Hotel') {
         selectedTicketTypeBooleans.isRemote = false;
         selectedTicketTypeBooleans.includesHotel = true;
       } else {
@@ -74,10 +72,9 @@ export default function Payment() {
       }
 
       response.data.forEach((tickeTypeObj) => {
-        console.log(tickeTypeObj);
         if (
-          tickeTypeObj.includesHotel == selectedTicketTypeBooleans.includesHotel &&
-          tickeTypeObj.isRemote == selectedTicketTypeBooleans.isRemote
+          tickeTypeObj.includesHotel === selectedTicketTypeBooleans.includesHotel &&
+          tickeTypeObj.isRemote === selectedTicketTypeBooleans.isRemote
         ) {
           selectedTicketTypeId = tickeTypeObj.id;
         }
@@ -94,7 +91,7 @@ export default function Payment() {
       toast('Ticket criado com sucesso!');
 
       setTimeout(() => changeScreenState(), 500);
-    } catch (error) {
+    } catch (error) { // eslint-disable-next-line
       console.log(error);
     }
   };
