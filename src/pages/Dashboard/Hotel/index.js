@@ -38,14 +38,14 @@ export default function Hotel() {
       try {
         const ticketId = await axios.get(`${process.env.REACT_APP_API_BASE_URL}tickets/`, config);
         return ticketId;
-      } catch (error) {
+      } catch (error) { // eslint-disable-next-line
         console.log(error);
       }
     }
     const userTicket = await getTicketFromUser();
     if (!userTicket) {
       setTicketStatus(null);
-    } else if (userTicket.data.status != 'PAID') {
+    } else if (userTicket.data.status !== 'PAID') {
       setTicketStatus('NOT PAID');
     } else if (!userTicket.data.TicketType.includesHotel) {
       setTicketStatus('HOTEL NOT INCLUDED');
@@ -72,11 +72,11 @@ export default function Hotel() {
     return <NullScreen><h1> Ingresso não encontrado, por favor compre um ingresso antes de acessar esta página.</h1></NullScreen>;
   }
 
-  if (ticketStatus == 'NOT PAID') {
+  if (ticketStatus === 'NOT PAID') {
     return <NullScreen><h1>Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem</h1></NullScreen>;
   }
 
-  if (ticketStatus == 'HOTEL NOT INCLUDED') {
+  if (ticketStatus === 'HOTEL NOT INCLUDED') {
     return <NullScreen><h1>Sua modalidade de ingresso não inclui hospedagem Prossiga para a escolha de atividades</h1></NullScreen>;
   }
 
