@@ -21,6 +21,7 @@ export const HotelSquareStyle = styled.div`
   display: flex;
   flex-direction: column;
   padding: 14px;
+  margin-right:20px;
   
   img {
     width: 168px;
