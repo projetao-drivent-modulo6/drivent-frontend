@@ -3,7 +3,7 @@ import useSaveActivityBooking from '../../hooks/api/useSaveActivityBooking';
 import esgotadoImage from '../../../src/assets/images/close.png';
 import disponivelImage from '../../../src/assets/images/enter.png';
 import inscritoImage from '../../../src/assets/images/check.png';
-import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export function Activity({ activity, time, updateStages }) {
   const { id, name, duration, capacity, bookingCount, registered } = activity;
@@ -12,12 +12,15 @@ export function Activity({ activity, time, updateStages }) {
     minimumIntegerDigits: 2,
     useGrouping: false,
   });
-  const [isBooked, setIsBooked] = useState(false);
 
   async function bookActivity() {
     if (capacity !== 0 && bookingCount < capacity) {
-      await saveActivityBooking(id);
-      setIsBooked(true);
+      try {
+        await saveActivityBooking(id);
+      } catch (error) {
+        const { status } = error.response;
+        if (status === 409) toast('Horário conflitante, não foi possivel se inscrever.');
+      }
       updateStages();
     }
   }
@@ -33,7 +36,7 @@ export function Activity({ activity, time, updateStages }) {
 
       <div className="status" onClick={bookActivity}>
         <Container>
-          {isBooked ? (
+          {registered ? (
             <>
               <img src={inscritoImage} alt="Inscrito" />
               <StatusText>Inscrito</StatusText>
@@ -47,7 +50,7 @@ export function Activity({ activity, time, updateStages }) {
             <>
               <img src={disponivelImage} alt="Disponível" />
               <StatusText>
-                {capacity}
+                {capacity - bookingCount}
                 {' vagas'}
               </StatusText>
             </>
