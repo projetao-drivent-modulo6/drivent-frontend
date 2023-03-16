@@ -110,20 +110,20 @@ export default function PaymentForm({ setProv, userTicketId }) {
     };
 
     await axios
-      .post(API, reqBody, config)
-      .then((response) => console.log(response.data))
+      .post(API, reqBody, config) // eslint-disable-next-line
+      .then((response) => console.log(response.data)) // eslint-disable-next-line
       .catch((error) => console.error(error));
 
     setProv(3);
   };
 
-  const changeScreenState = () => {
+  /*  const changeScreenState = () => {
     if(cvc !== '') {
       setProv(3);
     } else {
       alert('Preencha todos os campos corretamente!');
     }
-  };
+  }; */
 
   return (
     <Display>

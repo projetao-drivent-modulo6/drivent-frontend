@@ -4,9 +4,7 @@ import { StageBlock } from './StageBlock';
 export function Stages({ stages, date, updateStages }) {
   return (
     <StagesStyle>
-      {stages.map((e) => (
-        <StageBlock key={e.id} stage={e} date={date} updateStages={updateStages} />
-      ))}
+      {stages.map(e => <StageBlock key={e.id} stage={e} date={date} updateStages={updateStages}/>)}
     </StagesStyle>
   );
 }

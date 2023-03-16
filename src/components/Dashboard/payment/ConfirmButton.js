@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 export const ConfirmButton = (props) => {
-  const { selectedOptions } = props;
+  //const { selectedOptions } = props;
   return (
     <>
       <ConfirmPhraseContainer>

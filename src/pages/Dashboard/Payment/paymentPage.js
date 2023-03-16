@@ -1,7 +1,7 @@
 import PaymentForm from './creditCard';
 import styled from 'styled-components';
 import { useState } from 'react';
-import useTicketTypes from '../../../hooks/api/useTicketTypes';
+// import useTicketTypes from '../../../hooks/api/useTicketTypes';
 
 const Payment = styled.div`
   display: flex;
@@ -53,6 +53,7 @@ const PriceBox = styled.div`
 
 export default function PaymentCardScreen({ selectedOptions, setProv, userTicketId }) {
   // TODO implementar o resumo do pedido a partir do objeto {selectedOptions}
+  // eslint-disable-next-line
   const [payment, setPayment] = useState(false);
 
   return (
