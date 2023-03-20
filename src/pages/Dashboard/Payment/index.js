@@ -40,6 +40,33 @@ export default function Payment() {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}tickets/`, config);
       setUserTicketId(response.data.id);
+      if(response.data.status === 'PAID') {
+        const firstPannelData = [
+          { index: 1, title: 'Remoto', price: 100 },
+          { index: 2, title: 'Presencial', price: 350 },
+        ];
+        const secontPannelData = [
+          { index: 1, title: 'Sem Hotel', price: 0 },
+          { index: 2, title: 'Com Hotel', price: 350 },
+        ];
+      
+        const { data } = response;
+        let firstOption;
+        let secondOption;
+        if(data.TicketType.name === 'PresencialComHotel') {
+          firstOption = firstPannelData[1];
+          secondOption = secontPannelData[1];
+        } else if(data.TicketType.name === 'PresencialSemHotel') {
+          firstOption = firstPannelData[1];
+          secondOption = secontPannelData[0];
+        } else {
+          firstOption = firstPannelData[0];
+          secondOption = null;
+        }
+
+        setSelectedOptions({ firstOption, secondOption });
+        setProv(3);
+      }
     } catch (error) { // eslint-disable-next-line
       console.log(error);
     }
