@@ -128,7 +128,7 @@ export default function Activities() {
         const weekday = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
         return (<DateButton key={date.getTime()} index={index} selectButton={selectButton} onClick={() => handleClick(formatDate, index)}>{`${weekday[date.getDay()]}, ${date.getDate()}/${date.getMonth()}`}</DateButton>);
       })}</AllDates>
-      {selectDate && <Stages stages={stages} date={selectDate} updateStages={updateStages} />}
+      {(selectDate && stages) && <Stages stages={stages} date={selectDate} updateStages={updateStages} />}
     </DatePage>
   );
 }
