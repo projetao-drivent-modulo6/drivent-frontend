@@ -5,35 +5,8 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import useToken from '../../../hooks/useToken';
-
-const PaymentRequired = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  h1 {
-    width: 411px;
-    height: 46px;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 23px;
-    text-align: center;
-    color: #8e8e8e;
-  }
-  h2 {
-    width: 462px;
-    height: 46px;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 23px;
-    text-align: center;
-    color: #8e8e8e;
-  }
-`;
+import { NullScreen } from '../Hotel';
+import { StyledTypography } from '../Payment';
 
 const DateButton = styled.div`
   display: flex;
@@ -81,6 +54,7 @@ export default function Activities() {
   const [selectDate, setSelectDate] = useState();
   const [selectButton, setSelectButton] = useState();
   const token = useToken();
+  const title = 'Escolha de atividades';
 
   async function getTicket() {
     const config = {
@@ -93,6 +67,7 @@ export default function Activities() {
       setIsLoadingTicket(false);
     } catch (error) {
       // eslint-disable-next-line
+      setIsLoadingTicket(false);
       console.log(error);
     }
   }
@@ -122,26 +97,24 @@ export default function Activities() {
   }, []);
 
   if (isLoadingTicket) {
-    return (
-      <PaymentRequired>
-        <h1>Verificando pagamento...</h1>
-      </PaymentRequired>
-    );
+    return (<StyledTypography variant="h4">{title}</StyledTypography>);
   }
 
   if (ticketStatus.status !== 'PAID') {
     return (
-      <PaymentRequired>
+      <NullScreen>
+        <StyledTypography variant="h4">{title}</StyledTypography>
         <h1>Você precisa ter confirmado pagamento antes de fazer a escolha de atividades</h1>
-      </PaymentRequired>
+      </NullScreen>
     );
   }
 
   if (ticketStatus.TicketType.isRemote !== false) {
     return (
-      <PaymentRequired>
+      <NullScreen>
+        <StyledTypography variant="h4">{title}</StyledTypography>
         <h2>Sua modalidade de ingresso não necessita escolher atividade. Você terá acesso a todas as atividades.</h2>
-      </PaymentRequired>
+      </NullScreen>
     );
   }
 
@@ -153,7 +126,7 @@ export default function Activities() {
         const date = new Date(d.date);
         const formatDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getDate() + 1}`;
         const weekday = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-        return (<DateButton index={index} selectButton={selectButton} onClick={() => handleClick(formatDate, index)}>{`${weekday[date.getDay()]}, ${date.getDate()}/${date.getMonth()}`}</DateButton>);
+        return (<DateButton key={date.getTime()} index={index} selectButton={selectButton} onClick={() => handleClick(formatDate, index)}>{`${weekday[date.getDay()]}, ${date.getDate()}/${date.getMonth()}`}</DateButton>);
       })}</AllDates>
       {selectDate && <Stages stages={stages} date={selectDate} updateStages={updateStages} />}
     </DatePage>

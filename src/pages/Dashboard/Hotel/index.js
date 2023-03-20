@@ -7,15 +7,31 @@ import HotelFinal from '../../../components/Hotel/HotelFinal';
 import useToken from '../../../hooks/useToken';
 import axios from 'axios';
 import styled from 'styled-components';
+import { StyledTypography } from '../Payment';
 
-const NullScreen = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+export const NullScreen = styled.div`
   height: 100%;
-  h1{
-    font-size: 1.2rem;
-    font-weight: 800;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  h4 {
+    align-self: flex-start;
+  }
+
+  h1 {
+    display: flex;
+    align-items: center;
+    flex: 1;
+
+    max-width: 500px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+
+    color: #8e8e8e;
   }
 `;
 
@@ -28,6 +44,7 @@ export default function Hotel() {
   const showRoomSelection = (id) => getHotelWithRoom(id);
   const hideRoomSelection = () => setRooms(null);
   const token = useToken();
+  const title = 'Escolha de hotel e quarto';
 
   useEffect(async() => {
     async function getTicketFromUser() {
@@ -52,12 +69,15 @@ export default function Hotel() {
     } else {
       setTicketStatus('GOOD');
     }
+  }, []);
 
+  useEffect(() => {
+    setHotelBooking(booking);
+  }, [booking]);
+
+  useEffect(() => {
     setRooms(hotelWithRoom?.Rooms);
-    if (booking) {
-      setHotelBooking(booking);
-    }
-  }, [hotelWithRoom, booking]);
+  }, [hotelWithRoom]);
 
   async function updateBookings() {
     try {
@@ -67,17 +87,26 @@ export default function Hotel() {
     }
   }
 
-  if (bookingLoading) return <></>;
+  if (bookingLoading) return (<StyledTypography variant="h4">{title}</StyledTypography>);
   if (ticketStatus == null) {
-    return <NullScreen><h1> Ingresso não encontrado, por favor compre um ingresso antes de acessar esta página.</h1></NullScreen>;
+    return <NullScreen>
+      <StyledTypography variant="h4">{title}</StyledTypography>
+      <h1> Ingresso não encontrado, por favor compre um ingresso antes de acessar esta página.</h1>
+    </NullScreen>;
   }
 
   if (ticketStatus === 'NOT PAID') {
-    return <NullScreen><h1>Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem</h1></NullScreen>;
+    return <NullScreen>
+      <StyledTypography variant="h4">{title}</StyledTypography>
+      <h1>Você precisa ter confirmado pagamento antes de fazer a escolha de hospedagem</h1>
+    </NullScreen>;
   }
 
   if (ticketStatus === 'HOTEL NOT INCLUDED') {
-    return <NullScreen><h1>Sua modalidade de ingresso não inclui hospedagem Prossiga para a escolha de atividades</h1></NullScreen>;
+    return <NullScreen>
+      <StyledTypography variant="h4">{title}</StyledTypography>
+      <h1>Sua modalidade de ingresso não inclui hospedagem Prossiga para a escolha de atividades</h1>
+    </NullScreen>;
   }
 
   return (

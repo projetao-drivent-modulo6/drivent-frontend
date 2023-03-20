@@ -20,7 +20,10 @@ const PannelContainer = styled.div`
 
     margin-bottom: 17px;
   }
+
+  margin-bottom: 20px;
 `;
+
 const Options = styled.div`
   display: flex;
 
