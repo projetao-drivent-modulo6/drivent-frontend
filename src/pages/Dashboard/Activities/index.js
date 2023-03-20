@@ -66,8 +66,8 @@ export default function Activities() {
       setTicketStatus(response.data);
       setIsLoadingTicket(false);
     } catch (error) {
-      // eslint-disable-next-line
       setIsLoadingTicket(false);
+      // eslint-disable-next-line
       console.log(error);
     }
   }
